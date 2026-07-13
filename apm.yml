@@ -1,0 +1,16 @@
+name: skills
+version: 1.0.0
+description: APM project for skills
+author: YutoOkawa
+# Which agent platforms to deploy to.
+# Resolution order: --target flag > this field > auto-detect from filesystem.
+# Accepted values: vscode, agents, copilot, claude, cursor, opencode, codex,
+# gemini, antigravity, windsurf, kiro, agent-skills, all
+targets:
+- antigravity
+dependencies:
+  apm:
+    - ./skills/discord-messenger
+  mcp: []
+includes: auto
+scripts: {}
