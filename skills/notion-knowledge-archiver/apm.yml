@@ -1,0 +1,12 @@
+name: notion-knowledge-archiver
+version: 1.0.0
+description: AI Agent が調査した内容を notion-knowledge-base MCP を利用して Notion に自動でページを作成し、書き込むためのスキルです。
+author: YutoOkawa
+targets:
+- antigravity
+dependencies:
+  apm: []
+  mcp:
+    - notion-knowledge-base
+includes: auto
+scripts: {}

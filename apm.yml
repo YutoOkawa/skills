@@ -11,6 +11,7 @@ targets:
 dependencies:
   apm:
     - ./skills/discord-messenger
+    - ./skills/notion-knowledge-archiver
   mcp: []
 includes: auto
 scripts: {}

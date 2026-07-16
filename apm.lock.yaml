@@ -1,0 +1,37 @@
+lockfile_version: '1'
+generated_at: '2026-07-16T11:59:18.554597+00:00'
+apm_version: 0.24.0
+dependencies:
+- repo_url: _local/discord-messenger
+  name: discord-messenger
+  version: 1.0.0
+  package_type: hybrid
+  deployed_files:
+  - .agents/skills/discord-messenger
+  - .agents/skills/discord-messenger/SKILL.md
+  - .agents/skills/discord-messenger/apm.yml
+  - .agents/skills/discord-messenger/scripts/send_message.py
+  deployed_file_hashes:
+    .agents/skills/discord-messenger/SKILL.md: sha256:817737df35cfc5bee93a21432587655e73ed27812f761dcbb120720c7a6f13db
+    .agents/skills/discord-messenger/apm.yml: sha256:c61f04fd704d7c6f94895290ccb47fb281a3a1198738456aa81624b20c323b71
+    .agents/skills/discord-messenger/scripts/send_message.py: sha256:a38c877127251d438cb68908de3b7471a8d4788a2ef8cc02bfdb2c19aa7b10e0
+  source: local
+  local_path: ./skills/discord-messenger
+- repo_url: _local/notion-knowledge-archiver
+  name: notion-knowledge-archiver
+  version: 1.0.0
+  package_type: hybrid
+  deployed_files:
+  - .agents/skills/notion-knowledge-archiver
+  - .agents/skills/notion-knowledge-archiver/SKILL.md
+  - .agents/skills/notion-knowledge-archiver/apm.yml
+  deployed_file_hashes:
+    .agents/skills/notion-knowledge-archiver/SKILL.md: sha256:9f2878172e724d21d731e8c434779c2899fb8d444cf579d71597db693aa6b38a
+    .agents/skills/notion-knowledge-archiver/apm.yml: sha256:778e4cf61ae7d7b37fd04838e7eac6f2b19a717da9f9944ac1df1cc1b1744b42
+  source: local
+  local_path: ./skills/notion-knowledge-archiver
+mcp_servers:
+- notion-knowledge-base
+mcp_configs:
+  notion-knowledge-base:
+    name: notion-knowledge-base
