@@ -12,6 +12,8 @@ dependencies:
   apm:
     - ./skills/discord-messenger
     - ./skills/notion-knowledge-archiver
+  rules:
+    - ./rules/knowledge-reporter.md
   mcp: []
 includes: auto
 scripts: {}
