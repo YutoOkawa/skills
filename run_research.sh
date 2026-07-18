@@ -21,17 +21,22 @@ cd "$PROJECT_ROOT" || { echo "Error: Failed to change directory to project root"
 # 3.5. 必要なパーミッション設定の自動登録・更新
 python3 "./setup_permissions.py"
 
-# 4. 調査テーマの定義
-RESEARCH_THEME="antigravity cli について調査してください。"
-
-# 5. エージェントの実行
-# - ルール指示書の内容をプロンプトとして直接流し込みます。
-# - ※ settings.json にて notion-knowledge-base MCP および send_message.py コマンドが allow 登録されているため、無承認で自律実行されます。
-
+# 4. エージェントの実行
 INSTRUCTIONS=$(cat ".agents/rules/knowledge-reporter.md")
-"$AGY_PATH" --print "$INSTRUCTIONS
+
+# get_drafts.py を実行して下書き一覧を取得し、シリアルに処理
+python3 "./get_drafts.py" | while IFS=$'\t' read -r page_id title; do
+    if [ -n "$page_id" ] && [ -n "$title" ]; then
+        echo "[+] Starting research for: $title (ID: $page_id)"
+        "$AGY_PATH" --print "$INSTRUCTIONS
 
 【本日の調査テーマ】
-$RESEARCH_THEME"
+$title
+
+【対象NotionページID】
+$page_id"
+        echo "[+] Finished research for: $title"
+    fi
+done
 
 echo "[+] Execution completed."
