@@ -35,6 +35,19 @@ $title
 
 【対象NotionページID】
 $page_id"
+
+        # agyの実行結果（終了ステータス）を確認
+        if [ $? -eq 0 ]; then
+            # ページIDからハイフンを除去してNotion URLを構築
+            clean_id=$(echo "$page_id" | tr -d '-')
+            notion_url="https://www.notion.so/$clean_id"
+            
+            # ホスト環境からDiscordへ通知を送信
+            echo "[+] Sending Discord notification..."
+            python3 "skills/discord-messenger/scripts/send_message.py" "【調査完了通知】${title}: ${notion_url}"
+        else
+            echo "[!] Error: Research agent failed for $title"
+        fi
         echo "[+] Finished research for: $title"
     fi
 done
