@@ -11,8 +11,8 @@ def setup():
     # ディレクトリが存在しない場合は作成
     settings_dir.mkdir(parents=True, exist_ok=True)
 
-    # 現在のプロジェクトルート（カレントディレクトリ）の絶対パスを取得
-    project_root = os.getcwd()
+    # 現在のプロジェクトルートの絶対パスを取得（配置場所から解決）
+    project_root = str(Path(__file__).resolve().parent.parent.parent)
     
     # 登録したい権限リスト
     required_permissions = [

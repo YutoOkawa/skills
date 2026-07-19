@@ -15,17 +15,17 @@ AGY_PATH="$HOME/.local/bin/agy"
 
 # 3. ワークスペース（リポジトリルート）への移動
 # agy コマンドはローカルの .agents フォルダを参照するため、リポジトリルートで実行する必要があります。
-PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$PROJECT_ROOT" || { echo "Error: Failed to change directory to project root"; exit 1; }
 
 # 3.5. 必要なパーミッション設定の自動登録・更新
-python3 "./setup_permissions.py"
+python3 "scripts/setup/setup_permissions.py"
 
 # 4. エージェントの実行
 INSTRUCTIONS=$(cat ".agents/rules/knowledge-reporter.md")
 
 # get_drafts.py を実行して下書き一覧を取得し、シリアルに処理
-python3 "./get_drafts.py" | while IFS=$'\t' read -r page_id title; do
+python3 "scripts/research/get_drafts.py" | while IFS=$'\t' read -r page_id title; do
     if [ -n "$page_id" ] && [ -n "$title" ]; then
         echo "[+] Starting research for: $title (ID: $page_id)"
         "$AGY_PATH" --print "$INSTRUCTIONS
