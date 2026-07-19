@@ -16,6 +16,48 @@ def get_notion_token():
             print(f"[!] Error reading mcp_config.json: {e}", file=sys.stderr)
     return None
 
+def get_page_content(page_id, token):
+    url = f"https://api.notion.com/v1/blocks/{page_id}/children"
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Notion-Version": "2022-06-28"
+    }
+    req = urllib.request.Request(url, headers=headers, method="GET")
+    try:
+        with urllib.request.urlopen(req) as res:
+            data = json.loads(res.read().decode("utf-8"))
+            results = data.get("results", [])
+            lines = []
+            for block in results:
+                b_type = block.get("type")
+                if not b_type:
+                    continue
+                block_data = block.get(b_type, {})
+                rich_text = block_data.get("rich_text", [])
+                if rich_text:
+                    text = "".join([t.get("plain_text", "") for t in rich_text])
+                    if b_type.startswith("heading_"):
+                        try:
+                            level = int(b_type.split("_")[1])
+                            lines.append(f"{'#' * level} {text}")
+                        except ValueError:
+                            lines.append(text)
+                    elif b_type == "bulleted_list_item":
+                        lines.append(f"- {text}")
+                    elif b_type == "numbered_list_item":
+                        lines.append(f"1. {text}")
+                    elif b_type == "quote":
+                        lines.append(f"> {text}")
+                    else:
+                        lines.append(text)
+                elif b_type == "code":
+                    code_text = "".join([t.get("plain_text", "") for t in block_data.get("rich_text", [])])
+                    lines.append(f"```{block_data.get('language', '')}\n{code_text}\n```")
+            return "\n".join(lines)
+    except Exception as e:
+        print(f"[!] Error fetching page content for {page_id}: {e}", file=sys.stderr)
+        return ""
+
 def main():
     token = get_notion_token()
     if not token:
@@ -58,9 +100,12 @@ def main():
                 title_prop = page.get("properties", {}).get("名前", {}).get("title", [])
                 title = title_prop[0].get("plain_text", "") if title_prop else ""
                 if page_id and title:
+                    # 本文を取得
+                    content = get_page_content(page_id, token)
                     # タブ区切りで出力 (改行を含まないようにする)
                     title_clean = title.replace("\n", " ").replace("\r", " ")
-                    print(f"{page_id}\t{title_clean}")
+                    content_clean = content.replace("\r", "").replace("\n", "\\n")
+                    print(f"{page_id}\t{title_clean}\t{content_clean}")
     except Exception as e:
         print(f"[!] Error querying Notion API: {e}", file=sys.stderr)
         sys.exit(1)

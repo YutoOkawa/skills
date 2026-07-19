@@ -2,3 +2,5 @@
 # APM dependencies
 apm_modules/
 .agents/
+.env
+scripts/research/log
