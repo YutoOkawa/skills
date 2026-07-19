@@ -31,7 +31,7 @@ AGY_PATH="$HOME/.local/bin/agy"
 python3 "scripts/setup/setup_permissions.py"
 
 # 4. エージェントの実行
-INSTRUCTIONS=$(cat ".agents/rules/knowledge-reporter.md")
+INSTRUCTIONS=$(cat "rules/knowledge-reporter.md")
 
 # get_drafts.py を実行して下書き一覧を取得し、シリアルに処理
 python3 "scripts/research/get_drafts.py" | while IFS=$'\t' read -r page_id title content; do
